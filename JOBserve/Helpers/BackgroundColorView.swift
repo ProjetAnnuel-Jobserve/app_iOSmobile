@@ -21,3 +21,4 @@ class BackgroundColorView: UIView{
      gradientLayer.colors = [firstColor, secondColor]
  }
 }
+

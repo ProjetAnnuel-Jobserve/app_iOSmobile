@@ -8,27 +8,13 @@
 import Foundation
 import UIKit
 
-/*struct Topic : Codable{
+struct Topic : Codable{
  
     var _id: String
-    var title: String
-    //var image: UIImage
+    var name: String
+    var image: String
     var description: String
-    
-}*/
-class Topic{
-    
-    var _id: String
-    var title: String
-    var image: UIImage
-    
-    var description: String
-    
-    init(id: String, title: String, description: String, image:UIImage){
-        self._id = id
-        self.title = title
-        self.description = description
-        self.image = image
-    }
-    
+    var dateEnded: String
+    var status: String
+    var userVoters: [String]
 }

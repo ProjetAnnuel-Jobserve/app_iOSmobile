@@ -9,6 +9,8 @@ import UIKit
 
 class topicCVC: UICollectionViewCell {
 
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var isVotedImage: UIImageView!
     @IBOutlet weak var topicTitleLabel: UILabel!
     @IBOutlet weak var topicImage: UIImageView!
     override func awakeFromNib() {
