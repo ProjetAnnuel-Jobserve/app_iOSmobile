@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -69,6 +70,22 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVF-tU-7WE">
+                    <rect key="frame" x="216" y="54" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="mqI-4X-QNC"/>
+                        <constraint firstAttribute="width" constant="50" id="u9f-wh-kCu"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain">
+                        <imageReference key="image" image="arrow.clockwise.circle.fill" catalog="system" symbolScale="large"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="25"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="reloadTapped:" destination="-1" eventType="touchUpInside" id="tqG-Pk-K0J"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="0.97627657649999999" green="0.74229723219999999" blue="0.16290172929999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -82,12 +99,15 @@
                 <constraint firstItem="dhB-4C-OM4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="ebP-0c-qYM"/>
                 <constraint firstItem="GLh-17-m6w" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="kDh-eQ-Pf6"/>
                 <constraint firstItem="6ah-sh-il2" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="lfX-bw-492"/>
+                <constraint firstItem="dhB-4C-OM4" firstAttribute="leading" secondItem="uVF-tU-7WE" secondAttribute="trailing" constant="8" id="sOd-E0-eV4"/>
+                <constraint firstItem="uVF-tU-7WE" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="ubF-Yv-Wut"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="FeD-sS-Vdj" secondAttribute="trailing" constant="10" id="um5-Bx-xmW"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="105.80357142857143"/>
         </view>
     </objects>
     <resources>
+        <image name="arrow.clockwise.circle.fill" catalog="system" width="128" height="121"/>
         <image name="person.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
     </resources>

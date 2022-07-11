@@ -34,6 +34,15 @@ class StyleUtilities{
         button.setTitle("TERMINÉ", for: .normal)
         button.tintColor = UIColor.black
     }
+    static func buttonStyleDisableYesNO(_ button: UIButton){
+        StyleUtilities.roundButton(button)
+        button.backgroundColor = .gray
+        //button.layer.cornerRadius = 10.0
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.gray.cgColor
+       // button.setTitle("TERMINÉ", for: .normal)
+        button.tintColor = UIColor.black
+    }
     static func buttonStylePaticipation(_ button: UIButton){
         button.backgroundColor = UIColor(red: 252/255, green: 80/255, blue: 110/255, alpha: 255/255)
         button.layer.cornerRadius = 10.0

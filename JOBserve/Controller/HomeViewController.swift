@@ -71,8 +71,7 @@ class HomeViewController: UIViewController {
         }
         }
     }
-
-
+    
     @IBOutlet weak var addTopicBtn: UIButton!
     override func viewDidLoad() {
           let theUser = User(firstname: "Zinedine", lastname: "MEGNOUCHE", address: "28 avenue edouard vaillant", city: "Marseille", zipcode: "13003", email: "megnouche.z@gmail.com", phoneNumber: "0634476943")
@@ -99,7 +98,13 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        //setUpVC()
+       // print("#################WOWOWOWOWOWWO")
       //  self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        setUpVC()
+        print("#################WOWOWOWOWOWWO")
     }
     
     func setUpVC(){
@@ -127,6 +132,11 @@ class HomeViewController: UIViewController {
         
         self.navigationController?.pushViewController(profilViewController(), animated: true)
     }
+    @IBAction func reloadTapped(_ sender: Any) {
+        loadTopics()
+        topicsCollectionView.reloadData()
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -140,12 +150,12 @@ class HomeViewController: UIViewController {
         if(topicView){
         let selectedTopic = self.topicsList[indexPath.row]
         let nextController = detailTopicViewController.newInstance(topic: selectedTopic)
-        self.navigationController?.present(nextController, animated: true)
+        self.navigationController?.pushViewController(nextController, animated: true)
         }else{
             let selectedEvent = self.eventsList[indexPath.row]
             // a changer
-            let nextController = detailEventViewController.newInstance(event: selectedEvent)
-            self.navigationController?.present(nextController, animated: true)
+            let nextController = detailsEventViewController.newInstance(event: selectedEvent)
+            self.navigationController?.pushViewController(nextController, animated: true)
         }
         //print(selectedTopic.title)
     }
@@ -184,13 +194,20 @@ extension HomeViewController: UICollectionViewDataSource{
                 cell.topicImage.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderTopic"))
                 
                 
-                if(topic.userVoters.contains(userID)){
+                if(topic.userVoters.contains("Zizou")){
                      print("deja voté")
                      cell.isVotedImage.isHidden =  false
                      //self.tabuser = []
                  }else{
                      cell.isVotedImage.isHidden =  true
                  }
+               /* if(topic.userVoters.contains(userID)){
+                     print("deja voté")
+                     cell.isVotedImage.isHidden =  false
+                     //self.tabuser = []
+                 }else{
+                     cell.isVotedImage.isHidden =  true
+                 }*/
                 if(topic.status == "3"){
                     cell.statusLabel.textColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1)
                     cell.statusLabel.text = "FERMÉ"
@@ -225,8 +242,10 @@ extension HomeViewController: UICollectionViewDataSource{
                 cell.topicImage.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderEvent"))
                 //Ceci est un test : A changer
                 // ----------- A modifier -------
-                if(event.status == "1"){
+                if(event.participant.contains("Zizou")){
                     cell.isVotedImage.isHidden =  false
+                }else{
+                    cell.isVotedImage.isHidden = true
                 }
                 //---------
                 if(event.status == "2"){

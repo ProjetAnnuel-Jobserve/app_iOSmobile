@@ -6,5 +6,7 @@
 	<string>This app use the camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app use your photo library</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app use the calendar app</string>
 </dict>
 </plist>

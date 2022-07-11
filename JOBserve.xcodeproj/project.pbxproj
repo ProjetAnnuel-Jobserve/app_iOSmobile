@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		0B0AA420286AE8F600B2C55C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0AA41F286AE8F600B2C55C /* User.swift */; };
 		0B0AA422286AFE6B00B2C55C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0AA421286AFE6B00B2C55C /* Event.swift */; };
-		0B0AA425286B076B00B2C55C /* detailEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0AA423286B076B00B2C55C /* detailEventViewController.swift */; };
-		0B0AA426286B076B00B2C55C /* detailEventView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B0AA424286B076B00B2C55C /* detailEventView.xib */; };
+		0B6DA6CA287B2A170018BF69 /* detailsEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DA6C8287B2A170018BF69 /* detailsEventViewController.swift */; };
+		0B6DA6CB287B2A170018BF69 /* detailsEventView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DA6C9287B2A170018BF69 /* detailsEventView.xib */; };
+		0B6DA6D2287C140B0018BF69 /* AvisTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DA6D0287C140B0018BF69 /* AvisTableViewCell.swift */; };
+		0B6DA6D3287C140B0018BF69 /* AvisTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */; };
 		0B7F9073283016CF00CBF5D5 /* addTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F9071283016CF00CBF5D5 /* addTopicViewController.swift */; };
 		0B7F9074283016CF00CBF5D5 /* addTopicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7F9072283016CF00CBF5D5 /* addTopicView.xib */; };
 		0B888BF228671A5900513AA1 /* detailTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B888BF028671A5900513AA1 /* detailTopicViewController.swift */; };
@@ -49,8 +51,10 @@
 /* Begin PBXFileReference section */
 		0B0AA41F286AE8F600B2C55C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0B0AA421286AFE6B00B2C55C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		0B0AA423286B076B00B2C55C /* detailEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailEventViewController.swift; sourceTree = "<group>"; };
-		0B0AA424286B076B00B2C55C /* detailEventView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = detailEventView.xib; sourceTree = "<group>"; };
+		0B6DA6C8287B2A170018BF69 /* detailsEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailsEventViewController.swift; sourceTree = "<group>"; };
+		0B6DA6C9287B2A170018BF69 /* detailsEventView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = detailsEventView.xib; sourceTree = "<group>"; };
+		0B6DA6D0287C140B0018BF69 /* AvisTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvisTableViewCell.swift; sourceTree = "<group>"; };
+		0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvisTableViewCell.xib; sourceTree = "<group>"; };
 		0B7F9071283016CF00CBF5D5 /* addTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addTopicViewController.swift; sourceTree = "<group>"; };
 		0B7F9072283016CF00CBF5D5 /* addTopicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = addTopicView.xib; sourceTree = "<group>"; };
 		0B888BF028671A5900513AA1 /* detailTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailTopicViewController.swift; sourceTree = "<group>"; };
@@ -134,7 +138,7 @@
 			children = (
 				0BC48E49283E197200AF7FD4 /* profilView.xib */,
 				0BD1858C282D69D200ED11E8 /* LaunchScreen.storyboard */,
-				0B0AA424286B076B00B2C55C /* detailEventView.xib */,
+				0B6DA6C9287B2A170018BF69 /* detailsEventView.xib */,
 				0B7F9072283016CF00CBF5D5 /* addTopicView.xib */,
 				0BD185B4282DB2F000ED11E8 /* topicCVC.xib */,
 				0B888BF128671A5900513AA1 /* detailTopicView.xib */,
@@ -156,7 +160,9 @@
 				0BC48E48283E197200AF7FD4 /* profilViewController.swift */,
 				0B7F9071283016CF00CBF5D5 /* addTopicViewController.swift */,
 				0BC48E50283E2FA900AF7FD4 /* securityViewController.swift */,
-				0B0AA423286B076B00B2C55C /* detailEventViewController.swift */,
+				0B6DA6D0287C140B0018BF69 /* AvisTableViewCell.swift */,
+				0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */,
+				0B6DA6C8287B2A170018BF69 /* detailsEventViewController.swift */,
 				0B888BF028671A5900513AA1 /* detailTopicViewController.swift */,
 				0BC48E58283E349B00AF7FD4 /* topicSendViewController.swift */,
 				0BD185B3282DB2F000ED11E8 /* topicCVC.swift */,
@@ -257,13 +263,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B7F9074283016CF00CBF5D5 /* addTopicView.xib in Resources */,
-				0B0AA426286B076B00B2C55C /* detailEventView.xib in Resources */,
+				0B6DA6CB287B2A170018BF69 /* detailsEventView.xib in Resources */,
 				0B888BF328671A5900513AA1 /* detailTopicView.xib in Resources */,
 				0BC48E4B283E197200AF7FD4 /* profilView.xib in Resources */,
 				0BC48E53283E2FA900AF7FD4 /* securityView.xib in Resources */,
 				0B89CCC62877129F00E221E3 /* GoogleService-Info.plist in Resources */,
 				0BD185B6282DB2F000ED11E8 /* topicCVC.xib in Resources */,
 				0BD1858E282D69D200ED11E8 /* LaunchScreen.storyboard in Resources */,
+				0B6DA6D3287C140B0018BF69 /* AvisTableViewCell.xib in Resources */,
 				0BD1858B282D69D200ED11E8 /* Assets.xcassets in Resources */,
 				0BD1859C282D6BFD00ED11E8 /* SignInView.xib in Resources */,
 				0BC48E5B283E349C00AF7FD4 /* topicSendView.xib in Resources */,
@@ -278,15 +285,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B0AA425286B076B00B2C55C /* detailEventViewController.swift in Sources */,
 				0BD185A6282D7D7F00ED11E8 /* UIButtonExtensions.swift in Sources */,
 				0BC48E5A283E349C00AF7FD4 /* topicSendViewController.swift in Sources */,
 				0BD185B2282D92A700ED11E8 /* Topic.swift in Sources */,
 				0BD1859B282D6BFD00ED11E8 /* SignInViewController.swift in Sources */,
 				0B0AA420286AE8F600B2C55C /* User.swift in Sources */,
 				0BC48E4A283E197200AF7FD4 /* profilViewController.swift in Sources */,
+				0B6DA6D2287C140B0018BF69 /* AvisTableViewCell.swift in Sources */,
 				0BD1859E282D6E1700ED11E8 /* BackgroundColorView.swift in Sources */,
 				0B7F9073283016CF00CBF5D5 /* addTopicViewController.swift in Sources */,
+				0B6DA6CA287B2A170018BF69 /* detailsEventViewController.swift in Sources */,
 				0B0AA422286AFE6B00B2C55C /* Event.swift in Sources */,
 				0BC48E52283E2FA900AF7FD4 /* securityViewController.swift in Sources */,
 				0B888BF228671A5900513AA1 /* detailTopicViewController.swift in Sources */,

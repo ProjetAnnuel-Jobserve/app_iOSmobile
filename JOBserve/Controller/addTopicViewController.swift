@@ -76,6 +76,7 @@ class addTopicViewController: UIViewController {
     
     func setUpVC(){
         StyleUtilities.roundView(addTopicSubview)
+        StyleUtilities.roundView(topicImgImageView)
         StyleUtilities.sign(addTopicButton)
         StyleUtilities.sign(addTopicButton)
         //imageLabel.isHidden = true

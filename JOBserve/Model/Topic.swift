@@ -17,4 +17,6 @@ struct Topic : Codable{
     var dateEnded: String
     var status: String
     var userVoters: [String]
+    var numberVoteNo: Int
+    var numberVoteYes: Int
 }
