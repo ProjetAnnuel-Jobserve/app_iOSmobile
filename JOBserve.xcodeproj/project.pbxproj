@@ -138,6 +138,7 @@
 			children = (
 				0BC48E49283E197200AF7FD4 /* profilView.xib */,
 				0BD1858C282D69D200ED11E8 /* LaunchScreen.storyboard */,
+				0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */,
 				0B6DA6C9287B2A170018BF69 /* detailsEventView.xib */,
 				0B7F9072283016CF00CBF5D5 /* addTopicView.xib */,
 				0BD185B4282DB2F000ED11E8 /* topicCVC.xib */,
@@ -161,7 +162,6 @@
 				0B7F9071283016CF00CBF5D5 /* addTopicViewController.swift */,
 				0BC48E50283E2FA900AF7FD4 /* securityViewController.swift */,
 				0B6DA6D0287C140B0018BF69 /* AvisTableViewCell.swift */,
-				0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */,
 				0B6DA6C8287B2A170018BF69 /* detailsEventViewController.swift */,
 				0B888BF028671A5900513AA1 /* detailTopicViewController.swift */,
 				0BC48E58283E349B00AF7FD4 /* topicSendViewController.swift */,

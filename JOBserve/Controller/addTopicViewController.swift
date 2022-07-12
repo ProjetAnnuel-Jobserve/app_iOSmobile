@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseStorage
+import Firebase
 
 class addTopicViewController: UIViewController {
 
@@ -20,14 +21,11 @@ class addTopicViewController: UIViewController {
     
     private let storage = Storage.storage().reference()
     private var urlImg : String?
-    let defaults = UserDefaults.standard
+    var userID = Auth.auth().currentUser?.uid
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("user id =",defaults.string(forKey: "userID"))
         setUpVC()
-
-        // Do any additional setup after loading the view.
     }
 
     @IBAction func backButtonTapped(_ sender: Any) {
@@ -79,14 +77,9 @@ class addTopicViewController: UIViewController {
         StyleUtilities.roundView(topicImgImageView)
         StyleUtilities.sign(addTopicButton)
         StyleUtilities.sign(addTopicButton)
-        //imageLabel.isHidden = true
         topicTitleTF.layer.style = .none
         StyleUtilities.borderColor(topicDescriptionTextVIew)
         topicDescriptionTextVIew.layer.borderWidth = 0.2
-       // let firstColor = UIColor(red: 249/255, green: 200/255, blue: 35/255, alpha: 255/255).cgColor
-       // let secondColor = UIColor(red: 252/255, green: 80/255, blue: 110/255, alpha: 255/255).cgColor
-        
-        //topicDescriptionTextVIew.layer.borderColor = gradi
     }
     @IBAction func addTopicTapped(_ sender: Any) {
         if (isFieldOk()){
@@ -110,21 +103,12 @@ class addTopicViewController: UIViewController {
     }
     
     func addTopicApi(){
-       // if(!isFieldOk()){
-         //   return
-        //}
-        //uploadImage()
-        //print("URL DE L'image(self.image) = ",urlImg)
-       // print("---------URL----------URLIMG")
-       // print(urlImg)
-      //  self.urlImg = "afghgfhgfj;"
+        print("userId", self.userID!)
         let baseURL = URL(string: "https://jobserve-moc.herokuapp.com/topics/")
-        //let fullURL = baseURL.appendingPathComponent("/put”)
         let today = Date.now
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
         let thedate = formatter1.string(from: today)
-        let uid = defaults.string(forKey: "userID") ?? "Pas d'id"
         var request = URLRequest(url: baseURL!)
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = [
@@ -139,8 +123,9 @@ class addTopicViewController: UIViewController {
             "numberVoteNo": 0,
             "status": "1",
             "image": "\(self.urlImg ?? "")",
-            "type": "string",
-            "fk_userid": uid
+            "type": "string"
+            //A changer
+            //"fk_userid": "\(self.userID!)"
             
         ]
 
@@ -190,15 +175,12 @@ class addTopicViewController: UIViewController {
             self.storage.child("images/\(thedate)/\(self.topicTitleTF.text!).png").downloadURL(completion: {url,error in
                 guard let url = url, error == nil else {
                     print("URL IMAGE ERREUR")
-                    
                     self.urlImg = ""
-                    print("ERRREUR _____________URL DE L'image(self.image) = ",self.urlImg!)
                     return
                 }
                 let urlString = url.absoluteString
                 print("URL DOWNLOAD =",urlString)
                 self.urlImg = urlString
-                print("OK ----------------URL DE L'image(self.image) = ",self.urlImg!)
                 self.addTopicApi()
                 
             })

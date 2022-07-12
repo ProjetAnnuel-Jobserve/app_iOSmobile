@@ -55,6 +55,11 @@ class StyleUtilities{
     static func roundView(_ view: UIView){
         view.layer.cornerRadius = 35
     }
+    
+    static func roundViewImgEvent(_ view: UIView){
+        view.layer.cornerRadius = 15
+    }
+    
     static func roundButton(_ button: UIButton){
         button.layer.cornerRadius = 25
     }

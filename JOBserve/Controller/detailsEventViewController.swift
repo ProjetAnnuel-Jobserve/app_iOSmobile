@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import EventKit
 import EventKitUI
 
@@ -19,9 +20,12 @@ class detailsEventViewController: UIViewController {
     @IBOutlet weak var dateEnvent: UILabel!
     @IBOutlet weak var adressBtn: UIButton!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var addToCalendarBtn: UIButton!
     @IBOutlet weak var imageEvent: UIImageView!
     @IBOutlet weak var participationBtn: UIButton!
+    @IBOutlet weak var avisLbl: UILabel!
     var isParticipated: Bool = false
+    var userID = Auth.auth().currentUser?.uid
     
     
     
@@ -37,22 +41,17 @@ class detailsEventViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.tabBarController?.tabBar.isHidden = false
-        //self.navigationItem.setHidesBackButton(true, animated: false)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpVC()
-        // Do any additional setup after loading the view.
     }
 
     func setUpVC(){
-       // print("l'id = ",)
         let urlImg = URL(string: selectedEvent.image)
         self.imageEvent.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderEvent"))
-        StyleUtilities.roundView(imageEvent)
-        //StyleUtilities.buttonStylePaticipation(participationBtn)
+        StyleUtilities.roundViewImgEvent(imageEvent)
         titleLabel.text = selectedEvent.name
-        
         descriptionLabel.text = selectedEvent.description
         var str = selectedEvent.dateEnded.components(separatedBy:"T")
         var str1 = str[0]
@@ -60,10 +59,8 @@ class detailsEventViewController: UIViewController {
         str = selectedEvent.dateInscription.components(separatedBy:"T")
         str1 = str[0]
         dateLabel.text = str1
-       // dateLabel.text = selectedEvent.
         adressBtn.setTitle(selectedEvent.location, for: .normal)
-        if(selectedEvent.participant.contains("Zizou")){
-            print("il participe")
+        if(selectedEvent.participant.contains(userID!)){
             self.isParticipated = true
             StyleUtilities.buttonStyleNoPaticipation(participationBtn)
         }else{
@@ -75,17 +72,19 @@ class detailsEventViewController: UIViewController {
         avisTableView.dataSource = self
         avisTableView.separatorStyle = .none
         avisTableView.showsVerticalScrollIndicator = false
-        //changer TVC
         self.avisTableView.register(UINib(nibName: "AvisTableViewCell", bundle: nil), forCellReuseIdentifier: "avisCell")
     }
     
     func setUpStatut(){
-        print("statut =",selectedEvent.status)
-        if(selectedEvent.status == "1"){
+        if(selectedEvent.status == "2"){
             statutLabel.text = "OUVERT"
             statutLabel.textColor = .green
             participationBtn.isEnabled = true
-        }else if (selectedEvent.status == "2"){
+            avisLbl.isHidden = true
+            addToCalendarBtn.isHidden = false
+        }else if (selectedEvent.status == "3"){
+            addToCalendarBtn.isHidden = true
+            avisLbl.isHidden = false
             statutLabel.text = "FERMÉ"
             statutLabel.textColor = .red
             participationBtn.isEnabled = false
@@ -94,22 +93,21 @@ class detailsEventViewController: UIViewController {
         else{
             statutLabel.text = "ERREUR"
             statutLabel.textColor = .black
+            participationBtn.isEnabled = false
+            StyleUtilities.buttonStyleDisable(participationBtn)
+            addToCalendarBtn.isHidden = true
         }
     }
 
     @IBAction func adressClicked(_ sender: Any) {
-        print("click sur bouton adresse")
-        //URL(string: <#T##String#>)
-       // openURL("maps")
        let adr = selectedEvent.location.replacingOccurrences(of: " ", with: ",")
-       /* if let url = URL(string: "http://maps.apple.com/?address=28,rue,faubourg,Saint-Antoine,PARIS"){
-            UIApplication.shared.open(url)
-        }*/
         if let url = URL(string: "http://maps.apple.com/?address=\(adr)"){
              UIApplication.shared.open(url)
          }
-        //addToCalendar()
-        //openURL(URL(string: ""))
+    }
+    @IBAction func addToCalendarTapped(_ sender: Any) {
+        addToCalendar()
+        AlertUtilities.displayAlert("Evenement Ajouté", "\(self.selectedEvent.name) a été ajouté à votre calendrier ", VC: self)
     }
     @IBAction func backBtnTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -118,19 +116,12 @@ class detailsEventViewController: UIViewController {
     @IBAction func participationClicked(_ sender: Any) {
         if(self.isParticipated){
                         StyleUtilities.buttonStylePaticipation(participationBtn)
-            print("il ne participe plus")
-            print("participation = ",self.isParticipated)
             
         }else{
             StyleUtilities.buttonStyleNoPaticipation(participationBtn)
-            print("il participe 1")
-            print("participation = ",self.isParticipated)
         }
         changeParticipation(event: self.selectedEvent)
         isParticipated.toggle()
-        print("Zebi")
-        //self.navigationController?.popViewController(animated: true)
-       // self.navigationController?.popViewController(animated: true)
     }
     
     func changeParticipation(event: Event){
@@ -150,9 +141,9 @@ class detailsEventViewController: UIViewController {
             "Accept": "application/json"
         ]
         if (participation) {
-            self.selectedEvent.participant.append("Zizou")
+            self.selectedEvent.participant.append(self.userID!)
         }else{
-            if let index = self.selectedEvent.participant.firstIndex(of: "Zizou") {
+            if let index = self.selectedEvent.participant.firstIndex(of: self.userID!) {
                 self.selectedEvent.participant.remove(at: index)
             }
         }
@@ -195,9 +186,6 @@ class detailsEventViewController: UIViewController {
     
     func addToCalendar(){
         let eventStore : EKEventStore = EKEventStore()
-              
-        // 'EKEntityTypeReminder' or 'EKEntityTypeEvent'
-
         eventStore.requestAccess(to: .event) { (granted, error) in
           
           if (granted) && (error == nil) {
@@ -208,9 +196,9 @@ class detailsEventViewController: UIViewController {
               let str = self.selectedEvent.dateEnded.components(separatedBy:"T")
               let str1 = str[0]
               let dateEvent = str1
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                let date = dateFormatter.date(from:dateEvent)!
+              let dateFormatter = DateFormatter()
+              dateFormatter.dateFormat = "yyyy-MM-dd"
+              let date = dateFormatter.date(from:dateEvent)!
               event.title = self.selectedEvent.name
               event.startDate = date
               event.endDate = date
@@ -226,20 +214,9 @@ class detailsEventViewController: UIViewController {
                     print("Saved Event")
                 }
             else{
-                //AlertUtilities.displayAlert("Evenement ajouté", "L'évenement : \"\(self.selectedEvent.name)\" a été ajouté a votre calendrier", VC: self)
-               //     print("failed to save event with error : \(error) or access not granted")
                 }
               }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 extension detailsEventViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

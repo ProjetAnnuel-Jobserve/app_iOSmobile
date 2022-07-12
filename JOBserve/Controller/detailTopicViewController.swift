@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import Firebase
 
 class detailTopicViewController: UIViewController {
     
     var selectedTopic: Topic!
+    var userID = Auth.auth().currentUser?.uid
 
+    @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var yesBtn: UIButton!
     @IBOutlet weak var noBtn: UIButton!
     @IBOutlet weak var topicTitle: UILabel!
@@ -20,6 +23,12 @@ class detailTopicViewController: UIViewController {
     @IBOutlet weak var topicDescription: UILabel!
     @IBOutlet weak var choiceView: UIView!
     @IBOutlet weak var imageTopic: UIImageView!
+    @IBOutlet weak var resultatLbl: UILabel!
+    
+    @IBOutlet weak var noLbl: UILabel!
+    @IBOutlet weak var yesLbl: UILabel!
+    @IBOutlet weak var noResult: UILabel!
+    @IBOutlet weak var yesResult: UILabel!
     public class func newInstance(topic: Topic) -> detailTopicViewController{
         let cvc = detailTopicViewController()
         cvc.selectedTopic = topic
@@ -31,7 +40,6 @@ class detailTopicViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.tabBarController?.tabBar.isHidden = false
-        //self.navigationItem.setHidesBackButton(true, animated: false)
     }
     
     override func viewDidLoad() {
@@ -44,7 +52,6 @@ class detailTopicViewController: UIViewController {
     func setUpVC(){
         let urlImg = URL(string: selectedTopic.image)
         self.imageTopic.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderTopic"))
-        //StyleUtilities.roundView(imageTopic)
         let str = selectedTopic.dateEnded.components(separatedBy:"T")
         let str1 = str[0]
         topicTitle.text = selectedTopic.name
@@ -52,20 +59,30 @@ class detailTopicViewController: UIViewController {
         if(selectedTopic.status == "2"){
             statusTopic.textColor = UIColor(red: 9/255, green: 122/255, blue: 20/255, alpha: 1)
             statusTopic.text = "OUVERT"
+            resultatLbl.isHidden = true
+            yesLbl.isHidden = true
+            noLbl.isHidden = true
+            yesResult.isHidden = true
+            noResult.isHidden = true
+            self.progressBar.isHidden = true
         }else{
+            self.progressBar.isHidden = false
+            resultatLbl.isHidden = false
+            yesLbl.isHidden = false
+            noLbl.isHidden = false
+            yesResult.isHidden = false
+            noResult.isHidden = false
             statusTopic.textColor = .red
             statusTopic.text = "FERMÉ"
             yesBtn.isEnabled = false
             noBtn.isEnabled = false
+            setUpResult()
             yesBtn.alpha = 0.8
             yesBtn.layer.backgroundColor = UIColor.gray.cgColor
             noBtn.alpha = 0.8
             noBtn.layer.backgroundColor = UIColor.gray.cgColor
         }
-        /*
-         Ajouter condition deja voté
-         */
-        if(self.selectedTopic.userVoters.contains("Zizou")){
+        if(self.selectedTopic.userVoters.contains(userID!)){
             alreadyVotedLabel.isHidden = false
             yesBtn.isEnabled = false
             noBtn.isEnabled = false
@@ -76,15 +93,37 @@ class detailTopicViewController: UIViewController {
             yesBtn.isEnabled = true
             noBtn.isEnabled = true
         }
-        
-        //statusTopic.text = "teeeeest"
         endDateLabel.text = str1
         StyleUtilities.roundView(choiceView)
         StyleUtilities.circleButton(yesBtn)
         StyleUtilities.circleButton(noBtn)
-        //choiceView.layer.cornerRadius = 25
         StyleUtilities.roundView(imageTopic)
         imageTopic.layer.cornerRadius = 25
+    }
+    
+    func setUpResult(){
+        let nbVoters = selectedTopic.userVoters.count
+        if (nbVoters>0) {
+            let nbyes = selectedTopic.numberVoteYes
+            let nbno = selectedTopic.numberVoteNo
+            if(nbyes > 0 ){
+                let yesResult = (nbyes*100)/nbVoters
+                self.yesResult.text = "\(yesResult)%"
+                self.noResult.text = "\(100-(yesResult))%"
+                self.progressBar.progress = Float(yesResult)*0.01
+            }else if(nbno > 0){
+                let noResult = (nbno*100)/nbVoters
+                self.noResult.text = "\(noResult)%"
+                self.yesResult.text = "\(100-(noResult))%"
+                self.progressBar.progress = Float((100-noResult)/100)
+            }
+        }else{
+            self.progressBar.isHidden = true
+            self.noResult.text = "Pas de votes"
+            self.yesResult.text = "Pas de votes"
+        }
+        
+        
     }
     
     @IBAction func backTapped(_ sender: Any) {
@@ -100,11 +139,10 @@ class detailTopicViewController: UIViewController {
     }
     
     func vote(choice : Bool){
-        //A changer
         StyleUtilities.buttonStyleDisableYesNO(yesBtn)
         StyleUtilities.buttonStyleDisableYesNO(noBtn)
         alreadyVotedLabel.isHidden = false
-        if (selectedTopic.userVoters.contains("Zizou")) {
+        if (selectedTopic.userVoters.contains(userID!)) {
             return
         }
         let baseURL = URL(string: "https://jobserve-moc.herokuapp.com/topics")
@@ -117,24 +155,12 @@ class detailTopicViewController: UIViewController {
         
         if (choice) {
             selectedTopic.numberVoteYes += 1
-            //StyleUtilities.buttonStyleDisable(noBtn)
         }else{
-            //StyleUtilities.buttonStyleDisable(yesBtn)
             selectedTopic.numberVoteNo += 1
-            //print("Nb no =",selectedTopic.numberVoteNo)
         }
         yesBtn.isEnabled = false
         noBtn.isEnabled = false
-        print("user voter:",selectedTopic.userVoters)
-        print("id:",selectedTopic._id)
-        print("date ended:",selectedTopic.dateEnded)
-        print("desc:",selectedTopic.description)
-        print("img:",selectedTopic.image)
-        print("name:",selectedTopic.name)
-        print("Yes:",selectedTopic.numberVoteYes)
-        print("NO:",selectedTopic.numberVoteNo)
-        print("statu:",selectedTopic.status)
-        self.selectedTopic.userVoters.append("Zizou")
+        self.selectedTopic.userVoters.append(self.userID!)
         
         let jsonDictionary: [String: Any] = [
             
@@ -174,21 +200,3 @@ class detailTopicViewController: UIViewController {
         AlertUtilities.displayAlert("Vote ok", "Votre vote a été pris en compte", VC: self)
     }
 }
-
-/*
- {
-     "_id": "62c5cc6924dfa30016a524d5",
-     "firstname": "Tom",
-     "lastname": "Sav",
-     "birthDate": "2021-02-03T00:00:00.000Z",
-     "location": "Paris",
-     "email": "app1234@group.fr",
-     "phoneNumber": "0623532353",
-     "password": "testtest",
-     "job": "Commercial",
-     "permission": "user",
-     "fk_company": "2",
-     "idFirebase": "WZWbzyauzYhSsBx1P4dKL5WqlDN2",
-     "__v": 0
- }
- */

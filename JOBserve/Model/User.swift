@@ -16,4 +16,5 @@ struct User : Codable{
     var zipcode: String
     var email:String
     var phoneNumber:String
+    var idFirebase:String
 }

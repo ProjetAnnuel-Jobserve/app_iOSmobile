@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Firebase
 class profilViewController: UIViewController {
 
     @IBOutlet weak var nameUser: UILabel!
@@ -20,10 +20,10 @@ class profilViewController: UIViewController {
     @IBOutlet weak var profilBtn: UIButton!
     @IBOutlet weak var securityBtn: UIButton!
     
+    var userID = Auth.auth().currentUser?.uid
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpProfil()
-        // Do any additional setup after loading the view.
     }
 
     @IBAction func backButtonPressee(_ sender: Any) {
@@ -36,15 +36,9 @@ class profilViewController: UIViewController {
         StyleUtilities.roundButton(logOutBtn)
         StyleUtilities.roundButton(securityBtn)
         StyleUtilities.roundButton(profilBtn)
-        
-       /* nameUser.text = user.firstname+" "+user.lastname
-        adressUser.text = user.address+" "+user.zipcode+" "+user.city
-        phoneUser.text = user.phoneNumber
-        emailUser.text = user.email*/
     }
     
     @IBAction func logOutTapped(_ sender: Any) {
-        UserDefaults.standard.reset()
         let vc = SignInViewController()
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
@@ -56,14 +50,5 @@ class profilViewController: UIViewController {
     @IBAction func securityTapped(_ sender: Any) {
         self.navigationController?.pushViewController(securityViewController(), animated: false)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

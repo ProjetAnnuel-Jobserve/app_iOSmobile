@@ -163,7 +163,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="tintColor" systemColor="systemPinkColor"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="lock.circle" catalog="system" imagePlacement="top" title="Security"/>
+                            <buttonConfiguration key="configuration" style="plain" image="lock.circle" catalog="system" imagePlacement="top" title="Securité"/>
                             <connections>
                                 <action selector="securityTapped:" destination="-1" eventType="touchUpInside" id="mR3-Vp-cOa"/>
                             </connections>
@@ -183,7 +183,9 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="tintColor" systemColor="systemPinkColor"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="power.circle" catalog="system" imagePlacement="top" title="Log out"/>
+                            <buttonConfiguration key="configuration" style="plain" image="power.circle" catalog="system" imagePlacement="top" title="deconnexion">
+                                <fontDescription key="titleFontDescription" type="system" pointSize="9"/>
+                            </buttonConfiguration>
                             <connections>
                                 <action selector="logOutTapped:" destination="-1" eventType="touchUpInside" id="QxR-rk-wGR"/>
                             </connections>

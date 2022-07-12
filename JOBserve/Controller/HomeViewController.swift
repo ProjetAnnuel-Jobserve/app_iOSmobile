@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import Kingfisher
 
 class HomeViewController: UIViewController {
@@ -13,8 +14,7 @@ class HomeViewController: UIViewController {
     var eventsList : [Event] = []
     var SignINvc : SignInViewController = SignInViewController()
     var topicView = true
-    var userID = "d123fd81"
-    var tabuser = ["d123fd8","d123d81","d123fd81"]
+    var userID = Auth.auth().currentUser?.uid
     @IBOutlet weak var topicsCollectionView: UICollectionView!
 
     public class func HVCevent() -> HomeViewController{
@@ -37,8 +37,6 @@ class HomeViewController: UIViewController {
             topicsCollectionView.reloadData()
         }
         else{
-           // print(json)
-            print("valeur istopic",topicView)
             print("Error PArse")
         }
         }else{
@@ -52,7 +50,6 @@ class HomeViewController: UIViewController {
                 topicsCollectionView.reloadData()
             }
             else{
-                print("valeur istopic",topicView)
                 print("Error PArse")
             }
         }
@@ -60,7 +57,7 @@ class HomeViewController: UIViewController {
     }
     func loadTopics(){
         // A modifier
-        var urlApi = "https://jobserve-moc.herokuapp.com/topics"
+        var urlApi = "https://jobserve-moc.herokuapp.com/accessible-topics"
         if (!topicView){
              urlApi = "https://jobserve-moc.herokuapp.com/events"
         }
@@ -74,55 +71,27 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var addTopicBtn: UIButton!
     override func viewDidLoad() {
-          let theUser = User(firstname: "Zinedine", lastname: "MEGNOUCHE", address: "28 avenue edouard vaillant", city: "Marseille", zipcode: "13003", email: "megnouche.z@gmail.com", phoneNumber: "0634476943")
-        //UserDefaults.standard.set(theUser, forKey: "USER")
-        do {
-            // Create JSON Encoder
-            let encoder = JSONEncoder()
-
-            // Encode Note
-            let data = try encoder.encode(theUser)
-            
-            UserDefaults.standard.set(data, forKey: "USER")
-
-        } catch {
-            print("Unable to Encode Note (\(error))")
-        }
         
         super.viewDidLoad()
         setUpVC()
-        print("&&&&&Valeur bool isTopic = ",topicView)
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        //setUpVC()
-       // print("#################WOWOWOWOWOWWO")
-      //  self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     override func viewDidAppear(_ animated: Bool) {
         setUpVC()
-        print("#################WOWOWOWOWOWWO")
     }
     
     func setUpVC(){
-        //print("id = ",SignINvc.idLogin)
-       // let id : String
-        //id = SignInViewController.
-      //  print("id = ",id)
         loadTopics()
-        //topicsMenuBtn.is
         topicsCollectionView.showsHorizontalScrollIndicator = false
         topicsCollectionView.backgroundColor = UIColor(white: 1, alpha: 0)
         topicsCollectionView.delegate = self
         topicsCollectionView.dataSource = self
         topicsCollectionView.showsVerticalScrollIndicator = false
         self.topicsCollectionView.register(UINib(nibName: "topicCVC", bundle: nil), forCellWithReuseIdentifier: "topicCell")
-        
-       // topicsCollectionView.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        //addTopicBtn.setImage(UIImage(named: "test"), for: .normal)
     }
     @IBAction func addTopicBtnTapped(_ sender: Any) {
         self.navigationController?.pushViewController(addTopicViewController(),animated: true)
@@ -136,16 +105,6 @@ class HomeViewController: UIViewController {
         loadTopics()
         topicsCollectionView.reloadData()
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if(topicView){
         let selectedTopic = self.topicsList[indexPath.row]
@@ -157,22 +116,14 @@ class HomeViewController: UIViewController {
             let nextController = detailsEventViewController.newInstance(event: selectedEvent)
             self.navigationController?.pushViewController(nextController, animated: true)
         }
-        //print(selectedTopic.title)
     }
 }
 extension HomeViewController: UICollectionViewDelegate{
-    /*func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let selectedTopic = self.topics[indexPath.item]
-        /*let nextController = detailTopicViewController.newInstance(topic: selectedTopic)
-        self.navigationController?.present(nextController, animated: true)*/
-        print(selectedTopic.title)
-    }*/
 }
 extension HomeViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if(topicView){
             return self.topicsList.count
-            
         }
         else{
             return self.eventsList.count
@@ -185,29 +136,14 @@ extension HomeViewController: UICollectionViewDataSource{
                 let topic = topicsList[indexPath.row]
                 
                 cell.topicTitleLabel.text = topic.name
-                //cell.topicTitleLabel.textColor = .blue
-                //Ceci est un test : A changer
-               /* if(topic._id == "2"){
-                    cell.isVotedImage.isHidden =  true
-                }*/
                 let urlImg = URL(string: topic.image)
                 cell.topicImage.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderTopic"))
-                
-                
-                if(topic.userVoters.contains("Zizou")){
+                if(topic.userVoters.contains(self.userID!)){
                      print("deja voté")
                      cell.isVotedImage.isHidden =  false
-                     //self.tabuser = []
                  }else{
                      cell.isVotedImage.isHidden =  true
                  }
-               /* if(topic.userVoters.contains(userID)){
-                     print("deja voté")
-                     cell.isVotedImage.isHidden =  false
-                     //self.tabuser = []
-                 }else{
-                     cell.isVotedImage.isHidden =  true
-                 }*/
                 if(topic.status == "3"){
                     cell.statusLabel.textColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1)
                     cell.statusLabel.text = "FERMÉ"
@@ -227,7 +163,6 @@ extension HomeViewController: UICollectionViewDataSource{
                 cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
                 cell.layer.shadowRadius = 2.0
                 cell.layer.shadowOpacity = 0.5
-                //cell.layer.masksToBounds = false
                 cell.layer.shadowPath = CGPath(roundedRect: cell.bounds, cornerWidth: cell.layer.cornerRadius, cornerHeight: 200, transform: nil)
                 return cell
             }
@@ -237,18 +172,15 @@ extension HomeViewController: UICollectionViewDataSource{
                 let event = eventsList[indexPath.row]
                 
                 cell.topicTitleLabel.text = event.name
-                //cell.topicTitleLabel.textColor = .blue
                 let urlImg = URL(string: event.image)
                 cell.topicImage.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderEvent"))
-                //Ceci est un test : A changer
-                // ----------- A modifier -------
-                if(event.participant.contains("Zizou")){
+                
+                if(event.participant.contains(self.userID!)){
                     cell.isVotedImage.isHidden =  false
                 }else{
                     cell.isVotedImage.isHidden = true
                 }
-                //---------
-                if(event.status == "2"){
+                if(event.status == "3"){
                     cell.statusLabel.textColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1)
                     cell.statusLabel.text = "EXPIRÉ"
                     }
@@ -264,7 +196,6 @@ extension HomeViewController: UICollectionViewDataSource{
                 cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
                 cell.layer.shadowRadius = 2.0
                 cell.layer.shadowOpacity = 0.5
-                //cell.layer.masksToBounds = false
                 cell.layer.shadowPath = CGPath(roundedRect: cell.bounds, cornerWidth: cell.layer.cornerRadius, cornerHeight: 200, transform: nil)
                 return cell
             }
@@ -293,20 +224,4 @@ extension HomeViewController:UICollectionViewDelegateFlowLayout{
             return 20
         }
     
-}
-extension UserDefaults {
-    enum Keys: String, CaseIterable {
-        
-        case firstname
-        case lastname
-        case address
-        case city
-        case zipcode
-        case email
-        case phoneNumber
-    }
-    
-    func reset() {
-        Keys.allCases.forEach { removeObject(forKey: $0.rawValue) }
-    }
 }

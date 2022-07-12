@@ -13,14 +13,11 @@ class AvisTableViewCell: UITableViewCell {
     @IBOutlet weak var avislabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setupV()
-
-        // Configure the view for the selected state
     }
     func setupV(){
         

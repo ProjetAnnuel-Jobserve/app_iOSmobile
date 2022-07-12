@@ -21,8 +21,6 @@ class securityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSecurity()
-
-        // Do any additional setup after loading the view.
     }
     func isPasswordValid(_ password:String) -> Bool {
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
@@ -78,19 +76,8 @@ class securityViewController: UIViewController {
         self.navigationController?.pushViewController(topicSendViewController(), animated: false)
     }
     @IBAction func logOutTapped(_ sender: Any) {
-        UserDefaults.standard.reset()
         let vc = SignInViewController()
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

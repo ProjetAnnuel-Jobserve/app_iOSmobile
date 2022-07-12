@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class topicSendViewController: UIViewController {
     
@@ -17,10 +18,11 @@ class topicSendViewController: UIViewController {
     @IBOutlet weak var topicBtn: UIButton!
     @IBOutlet weak var logOutBtn: UIButton!
     
+    var userID = Auth.auth().currentUser?.uid
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTopic()
-        // Do any additional setup after loading the view.
     }
     
     func setUpTopic(){
@@ -38,7 +40,6 @@ class topicSendViewController: UIViewController {
         self.navigationController?.pushViewController(securityViewController(), animated: false)
     }
     @IBAction func logOutTapped(_ sender: Any) {
-        UserDefaults.standard.reset()
         let vc = SignInViewController()
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
@@ -46,14 +47,5 @@ class topicSendViewController: UIViewController {
     @IBAction func backButtonTapped(_ sender: Any) {
         self.navigationController?.pushViewController(HomeViewController(), animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

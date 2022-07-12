@@ -11,13 +11,11 @@ import UIKit
 struct Event:Codable{
     var _id:String
     var name: String
-    //var type: String
     var description: String
     var dateEnded: String
     var dateInscription:String
     var location:String
     var status: String
-    // ajouter review
     var review: [String]
     var participant: [String]
     var image:String

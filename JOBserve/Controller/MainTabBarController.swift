@@ -13,18 +13,13 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         tabBar.backgroundColor = .white
         self.navigationItem.hidesBackButton = true
-        
-       // self.navigationController?.isNavigationBarHidden = true
         setUpTabBar()
-
-        // Do any additional setup after loading the view.
     }
     func setUpTabBar(){
         let HomeController = UINavigationController(rootViewController: HomeViewController())
         HomeController.tabBarItem.image = UIImage(systemName: "archivebox")
         HomeController.tabBarItem.selectedImage = UIImage(systemName: "archivebox")?.withTintColor(UIColor.red)
         HomeController.tabBarItem.title = "Sujets"
-       // HomeController.topi
         
         let vc = HomeViewController.HVCevent()
         let HomeControllerEvent = UINavigationController(rootViewController:vc)
@@ -35,14 +30,4 @@ class MainTabBarController: UITabBarController {
         
         viewControllers = [HomeController,HomeControllerEvent]
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
