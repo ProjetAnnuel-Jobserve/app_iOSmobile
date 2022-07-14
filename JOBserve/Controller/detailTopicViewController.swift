@@ -29,6 +29,8 @@ class detailTopicViewController: UIViewController {
     @IBOutlet weak var yesLbl: UILabel!
     @IBOutlet weak var noResult: UILabel!
     @IBOutlet weak var yesResult: UILabel!
+    var currentUser : User?
+    
     public class func newInstance(topic: Topic) -> detailTopicViewController{
         let cvc = detailTopicViewController()
         cvc.selectedTopic = topic
@@ -45,10 +47,32 @@ class detailTopicViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        loadUser()
         setUpVC()
         
         
     }
+    func parse(json: Data){
+        let decoder = JSONDecoder()
+        
+        if let jsonUser = try? decoder.decode(User.self, from: json){
+            self.currentUser = jsonUser
+        }
+        else{
+            print("Error PArse")
+        }
+        
+    }
+    func loadUser(){
+        // A modifier
+        let urlApi = "https://jobserve-moc.herokuapp.com/users-firebase/\(self.userID!)"
+        if let url = URL(string: urlApi ){
+        if let data = try? Data(contentsOf: url){
+            parse(json: data)
+        }
+        }
+    }
+    
     func setUpVC(){
         let urlImg = URL(string: selectedTopic.image)
         self.imageTopic.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderTopic"))
@@ -82,7 +106,8 @@ class detailTopicViewController: UIViewController {
             noBtn.alpha = 0.8
             noBtn.layer.backgroundColor = UIColor.gray.cgColor
         }
-        if(self.selectedTopic.userVoters.contains(userID!)){
+        if(currentUser != nil){
+        if(self.selectedTopic.userVoters.contains(currentUser!._id)){
             alreadyVotedLabel.isHidden = false
             yesBtn.isEnabled = false
             noBtn.isEnabled = false
@@ -92,6 +117,7 @@ class detailTopicViewController: UIViewController {
             alreadyVotedLabel.isHidden = true
             yesBtn.isEnabled = true
             noBtn.isEnabled = true
+        }
         }
         endDateLabel.text = str1
         StyleUtilities.roundView(choiceView)
@@ -132,17 +158,17 @@ class detailTopicViewController: UIViewController {
     
     @IBAction func noButtonPressed(_ sender: Any) {
         vote(choice: false)
-        
     }
     @IBAction func yesButtonPressed(_ sender: Any) {
         vote(choice: true)
     }
     
     func vote(choice : Bool){
+        if(currentUser != nil){
         StyleUtilities.buttonStyleDisableYesNO(yesBtn)
         StyleUtilities.buttonStyleDisableYesNO(noBtn)
         alreadyVotedLabel.isHidden = false
-        if (selectedTopic.userVoters.contains(userID!)) {
+            if (selectedTopic.userVoters.contains(currentUser!._id)) {
             return
         }
         let baseURL = URL(string: "https://jobserve-moc.herokuapp.com/topics")
@@ -156,11 +182,11 @@ class detailTopicViewController: UIViewController {
         if (choice) {
             selectedTopic.numberVoteYes += 1
         }else{
-            selectedTopic.numberVoteNo += 1
+            selectedTopic.numberVoteNo = 0
         }
         yesBtn.isEnabled = false
         noBtn.isEnabled = false
-        self.selectedTopic.userVoters.append(self.userID!)
+            selectedTopic.userVoters.append(self.currentUser!._id)
         
         let jsonDictionary: [String: Any] = [
             
@@ -174,7 +200,6 @@ class detailTopicViewController: UIViewController {
             "numberVoteYes": selectedTopic.numberVoteYes,
             "status": selectedTopic.status,
             "__v": 0
-            
         ]
 
         let data = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: .prettyPrinted)
@@ -198,5 +223,7 @@ class detailTopicViewController: UIViewController {
             }
         }.resume()
         AlertUtilities.displayAlert("Vote ok", "Votre vote a été pris en compte", VC: self)
+        }
+        
     }
 }

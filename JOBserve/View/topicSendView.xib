@@ -14,6 +14,7 @@
                 <outlet property="profilBtn" destination="86U-Lv-JfT" id="zUH-RL-vJH"/>
                 <outlet property="securityBtn" destination="QOT-DC-efq" id="48v-Ff-W2O"/>
                 <outlet property="topicBtn" destination="YPl-2j-0wO" id="bFh-PB-8jb"/>
+                <outlet property="topicSendedTableView" destination="rgO-wB-JwF" id="6hh-V5-JrX"/>
                 <outlet property="topicView" destination="dSg-v3-dpR" id="0AW-6G-4yY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -46,7 +47,19 @@
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSg-v3-dpR">
                             <rect key="frame" x="20" y="254" width="374" height="578"/>
+                            <subviews>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="rgO-wB-JwF">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="578"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                </tableView>
+                            </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="rgO-wB-JwF" secondAttribute="bottom" id="COR-Lk-YFV"/>
+                                <constraint firstItem="rgO-wB-JwF" firstAttribute="leading" secondItem="dSg-v3-dpR" secondAttribute="leading" id="Hde-0h-3uH"/>
+                                <constraint firstAttribute="trailing" secondItem="rgO-wB-JwF" secondAttribute="trailing" id="Lcd-zW-0ad"/>
+                                <constraint firstItem="rgO-wB-JwF" firstAttribute="top" secondItem="dSg-v3-dpR" secondAttribute="top" id="xXi-RT-f7X"/>
+                            </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="Ldr-tV-txe">
                             <rect key="frame" x="20" y="179" width="374" height="50"/>

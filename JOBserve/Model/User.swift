@@ -9,12 +9,15 @@ import Foundation
 import UIKit
 
 struct User : Codable{
+    var _id: String
     var firstname:String
     var lastname: String
-    var address: String
-    var city:String
-    var zipcode: String
+    var location: String
+    var birthDate: String
     var email:String
     var phoneNumber:String
+    var job: String
+    var permission: String
     var idFirebase:String
+    var fk_company:String
 }

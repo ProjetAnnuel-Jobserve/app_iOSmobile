@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="detailsEventViewController" customModule="JOBserve" customModuleProvider="target">
             <connections>
+                <outlet property="addReviewBtn" destination="OaB-Yc-Pvc" id="dmf-1J-gKl"/>
                 <outlet property="addToCalendarBtn" destination="DNX-yj-WBq" id="O11-fd-9fm"/>
                 <outlet property="adressBtn" destination="2mz-XM-sGP" id="zVF-FX-879"/>
                 <outlet property="avisLbl" destination="lyU-Vi-sXY" id="4xp-Oa-Phz"/>
@@ -117,7 +118,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avis" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyU-Vi-sXY">
-                                    <rect key="frame" x="20" y="345" width="374" height="50"/>
+                                    <rect key="frame" x="20" y="345" width="184" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="EBc-Ij-0p8"/>
                                     </constraints>
@@ -178,6 +179,18 @@
                                         <action selector="adressClicked:" destination="-1" eventType="touchUpInside" id="cHo-if-aPJ"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OaB-Yc-Pvc">
+                                    <rect key="frame" x="204" y="350" width="200" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="35" id="UKb-jj-f6J"/>
+                                        <constraint firstAttribute="width" constant="200" id="puw-aq-ur2"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" image="plus.circle.fill" catalog="system" title=" ajouter un avis"/>
+                                    <connections>
+                                        <action selector="addReview:" destination="-1" eventType="touchUpInside" id="q8I-0m-Mf2"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -185,7 +198,7 @@
                                 <constraint firstItem="wAk-e2-gM3" firstAttribute="top" secondItem="o3d-wM-HmE" secondAttribute="bottom" constant="-63" id="8NV-AO-VDL"/>
                                 <constraint firstAttribute="trailing" secondItem="lUt-8w-3y0" secondAttribute="trailing" constant="10" id="ATy-h3-HS2"/>
                                 <constraint firstItem="Wrz-Qf-DmK" firstAttribute="top" secondItem="DF9-lh-BWz" secondAttribute="bottom" constant="5" id="B27-oW-5oU"/>
-                                <constraint firstAttribute="trailing" secondItem="lyU-Vi-sXY" secondAttribute="trailing" constant="20" id="ByU-r0-yGP"/>
+                                <constraint firstItem="OaB-Yc-Pvc" firstAttribute="leading" secondItem="lyU-Vi-sXY" secondAttribute="trailing" id="ByU-r0-yGP"/>
                                 <constraint firstItem="IKq-9B-uNM" firstAttribute="top" secondItem="lUt-8w-3y0" secondAttribute="bottom" constant="50" id="CkV-3Z-29f"/>
                                 <constraint firstAttribute="trailing" secondItem="H7T-ib-DpP" secondAttribute="trailing" constant="10" id="G7t-RM-VGT"/>
                                 <constraint firstItem="lyU-Vi-sXY" firstAttribute="top" secondItem="V2g-Fu-u9k" secondAttribute="bottom" constant="10" id="GXl-rQ-znK"/>
@@ -195,6 +208,7 @@
                                 <constraint firstAttribute="trailing" secondItem="DNX-yj-WBq" secondAttribute="trailing" constant="5" id="Mtd-wz-m2A"/>
                                 <constraint firstItem="2s1-bz-5AY" firstAttribute="leading" secondItem="ZF0-Sf-cS4" secondAttribute="leading" constant="20" id="TYG-kt-fgu"/>
                                 <constraint firstItem="lRY-HU-iqR" firstAttribute="leading" secondItem="ZF0-Sf-cS4" secondAttribute="leading" constant="10" id="UQd-CN-aUk"/>
+                                <constraint firstItem="lUt-8w-3y0" firstAttribute="top" secondItem="OaB-Yc-Pvc" secondAttribute="bottom" constant="20" id="VLt-kf-4ld"/>
                                 <constraint firstItem="V2g-Fu-u9k" firstAttribute="leading" secondItem="ZF0-Sf-cS4" secondAttribute="leading" constant="10" id="W2o-Gy-1FI"/>
                                 <constraint firstAttribute="height" constant="850" id="WRU-om-p1e"/>
                                 <constraint firstItem="wAk-e2-gM3" firstAttribute="top" secondItem="Wrz-Qf-DmK" secondAttribute="bottom" constant="-63" id="Xv7-F5-pCX"/>
@@ -215,6 +229,7 @@
                                 <constraint firstItem="2mz-XM-sGP" firstAttribute="leading" secondItem="wAk-e2-gM3" secondAttribute="trailing" id="rJ0-RQ-CGi"/>
                                 <constraint firstItem="V2g-Fu-u9k" firstAttribute="top" secondItem="2mz-XM-sGP" secondAttribute="bottom" constant="5" id="sfa-vr-13d"/>
                                 <constraint firstItem="H7T-ib-DpP" firstAttribute="top" secondItem="DNX-yj-WBq" secondAttribute="bottom" constant="45" id="tWu-xt-jIZ"/>
+                                <constraint firstAttribute="trailing" secondItem="OaB-Yc-Pvc" secondAttribute="trailing" constant="10" id="vz6-E1-oe7"/>
                                 <constraint firstAttribute="trailing" secondItem="V2g-Fu-u9k" secondAttribute="trailing" constant="10" id="wDM-pT-FoI"/>
                                 <constraint firstItem="wAk-e2-gM3" firstAttribute="top" secondItem="2s1-bz-5AY" secondAttribute="bottom" constant="2" id="y8y-WH-nTJ"/>
                             </constraints>
@@ -244,6 +259,7 @@
         <image name="arrowshape.turn.up.left.circle.fill" catalog="system" width="128" height="121"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="placeholderEvent" width="612" height="408"/>
+        <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

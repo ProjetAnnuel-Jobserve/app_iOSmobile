@@ -10,7 +10,7 @@ import FirebaseStorage
 import Firebase
 
 class addTopicViewController: UIViewController {
-
+    
     @IBOutlet weak var topicDescriptionTextVIew: UITextView!
     @IBOutlet weak var imageLabel: UILabel!
     @IBOutlet weak var addTopicButton: UIButtonExtensions!
@@ -22,9 +22,11 @@ class addTopicViewController: UIViewController {
     private let storage = Storage.storage().reference()
     private var urlImg : String?
     var userID = Auth.auth().currentUser?.uid
+    var currentUser : User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadUser()
         setUpVC()
     }
 
@@ -70,6 +72,27 @@ class addTopicViewController: UIViewController {
         self.present(alertVC, animated: true,completion: nil)
     }
     
+    func parse(json: Data){
+        let decoder = JSONDecoder()
+        
+        if let jsonUser = try? decoder.decode(User.self, from: json){
+            self.currentUser = jsonUser
+        }
+        else{
+            print("Error PArse")
+        }
+        
+    }
+    func loadUser(){
+        // A modifier
+        let urlApi = "https://jobserve-moc.herokuapp.com/users-firebase/\(self.userID!)"
+        if let url = URL(string: urlApi ){
+        if let data = try? Data(contentsOf: url){
+            parse(json: data)
+        }
+        }
+    }
+    
     
     
     func setUpVC(){
@@ -103,6 +126,7 @@ class addTopicViewController: UIViewController {
     }
     
     func addTopicApi(){
+        
         print("userId", self.userID!)
         let baseURL = URL(string: "https://jobserve-moc.herokuapp.com/topics/")
         let today = Date.now
@@ -114,6 +138,7 @@ class addTopicViewController: UIViewController {
         request.allHTTPHeaderFields = [
             "Content-Type": "application/json",
             "Accept": "application/json"
+            //
         ]
             let jsonDictionary: [String: Any] = [
             "name": topicTitleTF.text ?? "Pas de Titre ",
@@ -123,9 +148,9 @@ class addTopicViewController: UIViewController {
             "numberVoteNo": 0,
             "status": "1",
             "image": "\(self.urlImg ?? "")",
-            "type": "string"
+            "type": "string",
             //A changer
-            //"fk_userid": "\(self.userID!)"
+            "fk_userid": "\(self.currentUser?._id ?? "")"
             
         ]
 

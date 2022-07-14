@@ -13,6 +13,8 @@
 		0B6DA6CB287B2A170018BF69 /* detailsEventView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DA6C9287B2A170018BF69 /* detailsEventView.xib */; };
 		0B6DA6D2287C140B0018BF69 /* AvisTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DA6D0287C140B0018BF69 /* AvisTableViewCell.swift */; };
 		0B6DA6D3287C140B0018BF69 /* AvisTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */; };
+		0B6DA6D6288045360018BF69 /* topicsSendedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DA6D4288045360018BF69 /* topicsSendedTableViewCell.swift */; };
+		0B6DA6D7288045360018BF69 /* topicsSendedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DA6D5288045360018BF69 /* topicsSendedTableViewCell.xib */; };
 		0B7F9073283016CF00CBF5D5 /* addTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F9071283016CF00CBF5D5 /* addTopicViewController.swift */; };
 		0B7F9074283016CF00CBF5D5 /* addTopicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7F9072283016CF00CBF5D5 /* addTopicView.xib */; };
 		0B888BF228671A5900513AA1 /* detailTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B888BF028671A5900513AA1 /* detailTopicViewController.swift */; };
@@ -55,6 +57,8 @@
 		0B6DA6C9287B2A170018BF69 /* detailsEventView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = detailsEventView.xib; sourceTree = "<group>"; };
 		0B6DA6D0287C140B0018BF69 /* AvisTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvisTableViewCell.swift; sourceTree = "<group>"; };
 		0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvisTableViewCell.xib; sourceTree = "<group>"; };
+		0B6DA6D4288045360018BF69 /* topicsSendedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = topicsSendedTableViewCell.swift; sourceTree = "<group>"; };
+		0B6DA6D5288045360018BF69 /* topicsSendedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = topicsSendedTableViewCell.xib; sourceTree = "<group>"; };
 		0B7F9071283016CF00CBF5D5 /* addTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addTopicViewController.swift; sourceTree = "<group>"; };
 		0B7F9072283016CF00CBF5D5 /* addTopicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = addTopicView.xib; sourceTree = "<group>"; };
 		0B888BF028671A5900513AA1 /* detailTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailTopicViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				0BC48E49283E197200AF7FD4 /* profilView.xib */,
+				0B6DA6D5288045360018BF69 /* topicsSendedTableViewCell.xib */,
 				0BD1858C282D69D200ED11E8 /* LaunchScreen.storyboard */,
 				0B6DA6D1287C140B0018BF69 /* AvisTableViewCell.xib */,
 				0B6DA6C9287B2A170018BF69 /* detailsEventView.xib */,
@@ -166,6 +171,7 @@
 				0B888BF028671A5900513AA1 /* detailTopicViewController.swift */,
 				0BC48E58283E349B00AF7FD4 /* topicSendViewController.swift */,
 				0BD185B3282DB2F000ED11E8 /* topicCVC.swift */,
+				0B6DA6D4288045360018BF69 /* topicsSendedTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -262,6 +268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6DA6D7288045360018BF69 /* topicsSendedTableViewCell.xib in Resources */,
 				0B7F9074283016CF00CBF5D5 /* addTopicView.xib in Resources */,
 				0B6DA6CB287B2A170018BF69 /* detailsEventView.xib in Resources */,
 				0B888BF328671A5900513AA1 /* detailTopicView.xib in Resources */,
@@ -299,6 +306,7 @@
 				0BC48E52283E2FA900AF7FD4 /* securityViewController.swift in Sources */,
 				0B888BF228671A5900513AA1 /* detailTopicViewController.swift in Sources */,
 				0BD18582282D69D100ED11E8 /* AppDelegate.swift in Sources */,
+				0B6DA6D6288045360018BF69 /* topicsSendedTableViewCell.swift in Sources */,
 				0BD185A0282D747300ED11E8 /* StyleUtilities.swift in Sources */,
 				0BA2FABC28631B0900E0F589 /* MainTabBarController.swift in Sources */,
 				0BD185AF282D90FD00ED11E8 /* HomeViewController.swift in Sources */,

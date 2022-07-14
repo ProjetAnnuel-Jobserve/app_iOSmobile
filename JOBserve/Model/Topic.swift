@@ -19,4 +19,5 @@ struct Topic : Codable{
     var userVoters: [String]
     var numberVoteNo: Int
     var numberVoteYes: Int
+    var fk_userid:String?
 }

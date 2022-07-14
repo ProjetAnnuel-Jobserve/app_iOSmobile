@@ -22,10 +22,12 @@ class detailsEventViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var addToCalendarBtn: UIButton!
     @IBOutlet weak var imageEvent: UIImageView!
+    @IBOutlet weak var addReviewBtn: UIButton!
     @IBOutlet weak var participationBtn: UIButton!
     @IBOutlet weak var avisLbl: UILabel!
     var isParticipated: Bool = false
     var userID = Auth.auth().currentUser?.uid
+    var currentUser: User?
     
     
     
@@ -44,10 +46,32 @@ class detailsEventViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadUser()
         setUpVC()
+    }
+    func parse(json: Data){
+        let decoder = JSONDecoder()
+        
+        if let jsonUser = try? decoder.decode(User.self, from: json){
+            self.currentUser = jsonUser
+        }
+        else{
+            print("Error PArse")
+        }
+        
+    }
+    func loadUser(){
+        // A modifier
+        let urlApi = "https://jobserve-moc.herokuapp.com/users-firebase/\(self.userID!)"
+        if let url = URL(string: urlApi ){
+        if let data = try? Data(contentsOf: url){
+            parse(json: data)
+        }
+        }
     }
 
     func setUpVC(){
+        
         let urlImg = URL(string: selectedEvent.image)
         self.imageEvent.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderEvent"))
         StyleUtilities.roundViewImgEvent(imageEvent)
@@ -60,11 +84,21 @@ class detailsEventViewController: UIViewController {
         str1 = str[0]
         dateLabel.text = str1
         adressBtn.setTitle(selectedEvent.location, for: .normal)
-        if(selectedEvent.participant.contains(userID!)){
+        if(currentUser != nil){
+            if(selectedEvent.status == "3" && selectedEvent.participant.contains(currentUser!._id)){
+                self.addReviewBtn.isEnabled = true
+                self.addReviewBtn.isHidden = false
+                
+            }else{
+                self.addReviewBtn.isEnabled = false
+                self.addReviewBtn.isHidden = true
+            }
+        if(selectedEvent.participant.contains(currentUser!._id)){
             self.isParticipated = true
             StyleUtilities.buttonStyleNoPaticipation(participationBtn)
         }else{
             StyleUtilities.buttonStylePaticipation(participationBtn)
+        }
         }
         setUpStatut()
         
@@ -80,11 +114,13 @@ class detailsEventViewController: UIViewController {
             statutLabel.text = "OUVERT"
             statutLabel.textColor = .green
             participationBtn.isEnabled = true
+            self.avisTableView.isHidden = true
             avisLbl.isHidden = true
             addToCalendarBtn.isHidden = false
         }else if (selectedEvent.status == "3"){
             addToCalendarBtn.isHidden = true
             avisLbl.isHidden = false
+            self.avisTableView.isHidden = false
             statutLabel.text = "FERMÉ"
             statutLabel.textColor = .red
             participationBtn.isEnabled = false
@@ -105,6 +141,36 @@ class detailsEventViewController: UIViewController {
              UIApplication.shared.open(url)
          }
     }
+    @IBAction func addReview(_ sender: Any) {
+        if(selectedEvent.status == "3" && selectedEvent.participant.contains(currentUser!._id)){
+            let alertController = UIAlertController(title: "Nouvel avis", message: "Entrez votre commentaire", preferredStyle: .alert)
+
+            alertController.addTextField { (textField) in
+                // configure the properties of the text field
+                textField.placeholder = "description..."
+
+
+            // add the buttons/actions to the view controller
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+
+                // this code runs when the user hits the "save" button
+
+                let inputName = alertController.textFields![0].text
+
+                if(inputName?.trimmingCharacters(in: .whitespacesAndNewlines) != ""){
+                    self.changeEvent(event: self.selectedEvent,addReview: true,review: inputName)
+                }
+
+            }
+
+            alertController.addAction(cancelAction)
+            alertController.addAction(saveAction)
+
+                self.present(alertController, animated: true, completion: nil)
+        }
+        }
+    }
     @IBAction func addToCalendarTapped(_ sender: Any) {
         addToCalendar()
         AlertUtilities.displayAlert("Evenement Ajouté", "\(self.selectedEvent.name) a été ajouté à votre calendrier ", VC: self)
@@ -120,11 +186,11 @@ class detailsEventViewController: UIViewController {
         }else{
             StyleUtilities.buttonStyleNoPaticipation(participationBtn)
         }
-        changeParticipation(event: self.selectedEvent)
+        changeEvent(event: self.selectedEvent)
         isParticipated.toggle()
     }
     
-    func changeParticipation(event: Event){
+    func changeEvent(event: Event,addReview: Bool? = false,review: String? = ""){
         let baseURL = URL(string: "https://jobserve-moc.herokuapp.com/events")
         var participation : Bool
         if(!self.isParticipated){
@@ -140,12 +206,22 @@ class detailsEventViewController: UIViewController {
             "Content-Type": "application/json",
             "Accept": "application/json"
         ]
+        if(addReview == false){
+        if(currentUser != nil){
         if (participation) {
-            self.selectedEvent.participant.append(self.userID!)
+            self.selectedEvent.participant.append(currentUser!._id)
         }else{
-            if let index = self.selectedEvent.participant.firstIndex(of: self.userID!) {
+            if let index = self.selectedEvent.participant.firstIndex(of: currentUser!._id) {
                 self.selectedEvent.participant.remove(at: index)
             }
+        }
+        }
+            
+        }else{
+            if(review != ""){
+                selectedEvent.review.append(review!)
+            }
+            
         }
         let jsonDictionary: [String: Any] = [
             
@@ -217,6 +293,7 @@ class detailsEventViewController: UIViewController {
                 }
               }
     }
+    
 }
 extension detailsEventViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

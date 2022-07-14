@@ -15,12 +15,33 @@ class HomeViewController: UIViewController {
     var SignINvc : SignInViewController = SignInViewController()
     var topicView = true
     var userID = Auth.auth().currentUser?.uid
+    var currentUser : User?
+    
     @IBOutlet weak var topicsCollectionView: UICollectionView!
 
     public class func HVCevent() -> HomeViewController{
         let cvc = HomeViewController()
         cvc.topicView = false
         return cvc
+    }
+    func parseUser(json: Data){
+        let decoder = JSONDecoder()
+        
+        if let jsonUser = try? decoder.decode(User.self, from: json){
+            self.currentUser = jsonUser
+        }
+        else{
+            print("Error PArse")
+        }
+        
+    }
+    func loadUser(){
+        let urlApi = "https://jobserve-moc.herokuapp.com/users-firebase/\(self.userID!)"
+        if let url = URL(string: urlApi ){
+        if let data = try? Data(contentsOf: url){
+            parseUser(json: data)
+        }
+        }
     }
     
     
@@ -29,11 +50,11 @@ class HomeViewController: UIViewController {
         let decoder = JSONDecoder()
         
         if let jsonTopics = try? decoder.decode([Topic].self, from: json){
-            var TheRecipes:[Topic] = []
+            var topics:[Topic] = []
             for topic in jsonTopics{
-                TheRecipes.append(topic)
+                topics.append(topic)
             }
-            topicsList = TheRecipes
+            topicsList = topics
             topicsCollectionView.reloadData()
         }
         else{
@@ -57,7 +78,7 @@ class HomeViewController: UIViewController {
     }
     func loadTopics(){
         // A modifier
-        var urlApi = "https://jobserve-moc.herokuapp.com/accessible-topics"
+        var urlApi = "https://jobserve-moc.herokuapp.com/topics"
         if (!topicView){
              urlApi = "https://jobserve-moc.herokuapp.com/events"
         }
@@ -85,6 +106,7 @@ class HomeViewController: UIViewController {
     }
     
     func setUpVC(){
+        loadUser()
         loadTopics()
         topicsCollectionView.showsHorizontalScrollIndicator = false
         topicsCollectionView.backgroundColor = UIColor(white: 1, alpha: 0)
@@ -138,12 +160,15 @@ extension HomeViewController: UICollectionViewDataSource{
                 cell.topicTitleLabel.text = topic.name
                 let urlImg = URL(string: topic.image)
                 cell.topicImage.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderTopic"))
-                if(topic.userVoters.contains(self.userID!)){
+                if(currentUser != nil){
+                    if(topic.userVoters.contains(currentUser!._id)){
                      print("deja voté")
                      cell.isVotedImage.isHidden =  false
                  }else{
                      cell.isVotedImage.isHidden =  true
                  }
+        
+                }
                 if(topic.status == "3"){
                     cell.statusLabel.textColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1)
                     cell.statusLabel.text = "FERMÉ"
@@ -174,11 +199,13 @@ extension HomeViewController: UICollectionViewDataSource{
                 cell.topicTitleLabel.text = event.name
                 let urlImg = URL(string: event.image)
                 cell.topicImage.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderEvent"))
-                
-                if(event.participant.contains(self.userID!)){
+                if(currentUser != nil){
+                    if(event.participant.contains(currentUser!._id)){
                     cell.isVotedImage.isHidden =  false
                 }else{
                     cell.isVotedImage.isHidden = true
+                }
+                    
                 }
                 if(event.status == "3"){
                     cell.statusLabel.textColor = UIColor(red: 255/255, green: 0/255, blue: 0/255, alpha: 1)
