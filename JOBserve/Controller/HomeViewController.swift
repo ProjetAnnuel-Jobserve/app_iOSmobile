@@ -78,15 +78,17 @@ class HomeViewController: UIViewController {
     }
     func loadTopics(){
         // A modifier
-        var urlApi = "https://jobserve-moc.herokuapp.com/topics"
+        if(currentUser != nil){
+        var urlApi = "https://jobserve-moc.herokuapp.com/accessible-topics/\(self.currentUser!.fk_company)"
         if (!topicView){
-             urlApi = "https://jobserve-moc.herokuapp.com/events"
+            urlApi = "https://jobserve-moc.herokuapp.com/accessible-events/\(self.currentUser!.fk_company)"
         }
         if let url = URL(string: urlApi ){
         if let data = try? Data(contentsOf: url){
-            print("valeur avant appel de parse istopic",urlApi)
             parse(json: data)
         }
+        }
+            
         }
     }
     

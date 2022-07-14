@@ -150,7 +150,8 @@ class addTopicViewController: UIViewController {
             "image": "\(self.urlImg ?? "")",
             "type": "string",
             //A changer
-            "fk_userid": "\(self.currentUser?._id ?? "")"
+            "fk_userid": "\(self.currentUser!._id)",
+            "fk_company": "\(self.currentUser!.fk_company)"
             
         ]
 
