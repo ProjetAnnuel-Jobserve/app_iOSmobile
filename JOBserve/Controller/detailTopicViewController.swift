@@ -182,7 +182,7 @@ class detailTopicViewController: UIViewController {
         if (choice) {
             selectedTopic.numberVoteYes += 1
         }else{
-            selectedTopic.numberVoteNo = 0
+            selectedTopic.numberVoteNo += 1
         }
         yesBtn.isEnabled = false
         noBtn.isEnabled = false

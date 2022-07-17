@@ -164,7 +164,6 @@ extension HomeViewController: UICollectionViewDataSource{
                 cell.topicImage.kf.setImage(with:urlImg,placeholder: UIImage(named: "placeholderTopic"))
                 if(currentUser != nil){
                     if(topic.userVoters.contains(currentUser!._id)){
-                     print("deja voté")
                      cell.isVotedImage.isHidden =  false
                  }else{
                      cell.isVotedImage.isHidden =  true
